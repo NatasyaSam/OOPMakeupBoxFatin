@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Makeup List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #8b4513;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #makeupList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .makeup-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            background-color: #8b4513;
+            color: white;
+            border: none;
+            padding: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #703510;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            position: absolute;
+            margin-top: 25%;
+            margin-left: 45%;
+            margin-right: 45%;
+        }
+
+    </style>
+</head>
+<body background="background.jpg">
+    <header>
+        <h1>Top 5 Makeup List</h1>
+    </header>
+
+    <main>
+        <form id="makeupForm">
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" required>
+
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" required>
+
+            <label for="category">Category:</label>
+            <input type="text" id="category" required>
+
+            <button type="button" onclick="addMakeupItem()">Add Item</button>
+        </form>
+
+        <ul id="makeupList"></ul>
+    </main>
+
+    <div>
+        <a href="index.html">Back to homepage</a>
+    </div>
+
+    <script>
+        const makeupItems = [];
+
+        function addMakeupItem() {
+            const productName = document.getElementById('productName').value;
+            const brand = document.getElementById('brand').value;
+            const category = document.getElementById('category').value;
+
+            if (productName && brand && category) {
+                const newMakeupItem = { productName, brand, category };
+                makeupItems.push(newMakeupItem);
+
+                // Update the display
+                displayMakeupItems();
+
+                // Clear the form inputs
+                document.getElementById('productName').value = '';
+                document.getElementById('brand').value = '';
+                document.getElementById('category').value = '';
+            }
+        }
+
+        function displayMakeupItems() {
+            const makeupListContainer = document.getElementById('makeupList');
+            makeupListContainer.innerHTML = ''; // Clear the existing list
+
+            makeupItems.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span>${item.productName} - ${item.brand} - ${item.category}</span>
+                    <button onclick="deleteMakeupItem(${index})">Delete</button>
+                `;
+                makeupListContainer.appendChild(listItem);
+            });
+        }
+
+        function deleteMakeupItem(index) {
+            makeupItems.splice(index, 1);
+            displayMakeupItems();
+        }
+    </script>
+</body>
+</html>
